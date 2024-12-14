@@ -2,13 +2,14 @@ import java.util.Random;
 
 public class hw_4_Akylbek {
 
+    // Global variables
     public static int bossHealth = 700;
     public static int bossDamage = 50;
     public static String bossDefence;
-    public static boolean bossStunned = false; // Tracks if the boss is stunned
+    public static boolean bossStunned = false;
 
-    public static int[] heroesHealth = {270, 260, 250, 255, 400, 200, 300, 280}; // Thor has 280 health
-    public static int[] heroesDamage = {20, 15, 10, 0, 5, 10, 0, 25}; // Thor has 25 damage
+    public static int[] heroesHealth = {270, 260, 250, 255, 400, 200, 300, 280};
+    public static int[] heroesDamage = {20, 15, 10, 0, 5, 10, 0, 25};
     public static String[] heroesAttackType = {"Physical", "Magical", "Kinetic", "Medic", "Golem", "Lucky", "Witcher", "Thor"};
 
     public static int roundNumber;
@@ -49,7 +50,7 @@ public class hw_4_Akylbek {
             bossAttack();
         } else {
             System.out.println("Boss is stunned and skips this round!");
-            bossStunned = false; // Reset stun status
+            bossStunned = false;
         }
         witcherRevive();
         heroesAttack();
@@ -78,10 +79,9 @@ public class hw_4_Akylbek {
                 }
                 bossHealth = Math.max(bossHealth - damage, 0);
 
-                // Thor's special ability: chance to stun the boss
                 if (heroesAttackType[i].equals("Thor")) {
                     Random random = new Random();
-                    boolean stun = random.nextBoolean(); // 50% chance to stun
+                    boolean stun = random.nextBoolean();
                     if (stun) {
                         bossStunned = true;
                         System.out.println("Thor stunned the boss!");
@@ -93,13 +93,13 @@ public class hw_4_Akylbek {
 
     public static void bossAttack() {
         int totalDamage = bossDamage;
-        int golemIndex = 4; // Golem's index in the arrays
-        int luckyIndex = 5; // Lucky's index in the arrays
+        int golemIndex = 4;
+        int luckyIndex = 5;
         for (int i = 0; i < heroesHealth.length; i++) {
             if (heroesHealth[i] > 0 && i != golemIndex) {
                 if (i == luckyIndex) {
                     Random random = new Random();
-                    boolean isLucky = random.nextBoolean(); // 50% chance to evade
+                    boolean isLucky = random.nextBoolean();
                     if (isLucky) {
                         System.out.println("Lucky evaded the boss's attack!");
                         continue;
@@ -115,11 +115,11 @@ public class hw_4_Akylbek {
     }
 
     public static void witcherRevive() {
-        if (!witcherUsedAbility && heroesHealth[6] > 0) { // Witcher is alive and ability not used
+        if (!witcherUsedAbility && heroesHealth[6] > 0) {
             for (int i = 0; i < heroesHealth.length; i++) {
-                if (heroesHealth[i] <= 0 && i != 6) { // Find the first dead hero (not Witcher)
-                    heroesHealth[i] = heroesHealth[6]; // Revive with Witcher's health
-                    heroesHealth[6] = 0; // Witcher sacrifices himself
+                if (heroesHealth[i] <= 0 && i != 6) {
+                    heroesHealth[i] = heroesHealth[6];
+                    heroesHealth[6] = 0;
                     witcherUsedAbility = true;
                     System.out.println("Witcher revived " + heroesAttackType[i] + " with his life.");
                     break;
@@ -129,12 +129,12 @@ public class hw_4_Akylbek {
     }
 
     public static void medicHeal() {
-        if (heroesHealth[3] > 0) { // Check if Medic is alive
+        if (heroesHealth[3] > 0) {
             for (int i = 0; i < heroesHealth.length; i++) {
-                if (i != 3 && heroesHealth[i] > 0 && heroesHealth[i] < 100) { // Medic can't heal himself or dead heroes
+                if (i != 3 && heroesHealth[i] > 0 && heroesHealth[i] < 100) {
                     heroesHealth[i] += 50; // Heal for 50 health points
                     System.out.println("Medic healed " + heroesAttackType[i] + " for 50 health points.");
-                    break; // Medic heals only one hero per round
+                    break;
                 }
             }
         }
